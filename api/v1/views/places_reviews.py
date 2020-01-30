@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+Create a new view for review
+"""
 from models import storage
 from flask import jsonify, request, abort
 from api.v1.views import app_views
@@ -40,7 +43,7 @@ def get_review(review_id):
                  strict_slashes=False)
 def delete_review(review_id):
     """deletes a Review by ID"""
-    review = storage.get('review', review_id)
+    review = storage.get('Review', review_id)
     if review is None:
         abort(404)
     else:
