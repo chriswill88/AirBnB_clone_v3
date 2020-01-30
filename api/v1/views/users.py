@@ -48,13 +48,14 @@ def delete_user(user_id):
                  strict_slashes=False)
 def create_user():
     """Create new user"""
-    if request.get_json is False:
+    if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
-    if "email" not in request.get_json():
+    json_list = request.get_json()
+    if "email" not in json_list:
         return jsonify({"error": "Missing email"}), 400
-    if "password" not in request.get_json():
+    if "password" not in json_list:
         return jsonify({"error": "Missing password"}), 400
-    new_user = User(**request.get_json())
+    new_user = User(**json_list)
     new_user.save()
     return (new_user.to_dict()), 201
 
