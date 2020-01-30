@@ -2,7 +2,7 @@
 from models import storage
 from flask import jsonify, request, abort
 from api.v1.views import app_views
-from models.Review import Place
+from models.review import Review
 
 
 @app_views.route("/places/<place_id>/reviews",
@@ -25,7 +25,7 @@ def get_reviews_by_place(place_id):
 
 
 @app_views.route("/reviews/<review_id>", methods=["GET"], strict_slashes=False)
-def get_city(review_id):
+def get_review(review_id):
     """retrieves a single review object"""
     review_obj = storage.get('Review', review_id)
     if review_obj is None:
@@ -37,7 +37,7 @@ def get_city(review_id):
 @app_views.route("/cities/<review_id>",
                  methods=["DELETE"],
                  strict_slashes=False)
-def delete_city(review_id):
+def delete_review(review_id):
     """deletes a Review by ID"""
     review = storage.get('review', review_id)
     if review is None:
@@ -51,7 +51,7 @@ def delete_city(review_id):
 @app_views.route("/places/<place_id>/reviews",
                  methods=["POST"],
                  strict_slashes=False)
-def post_city(place_id):
+def post_review(place_id):
     """create a review"""
     # get place obj to change
     if storage.get("Place", place_id) is None:
@@ -79,7 +79,7 @@ def post_city(place_id):
 @app_views.route("/reviews/<review_id>",
                  methods=["PUT"],
                  strict_slashes=False)
-def update_city(review_id):
+def update_review(review_id):
     """updates a review object"""
     ignore = ["id", "user_id", "place_id", "created_at", "updated_at"]
     review = storage.get('Place', review_id)
