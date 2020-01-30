@@ -16,11 +16,11 @@ def status():
 @app_views.route('/stats')
 def numtypes():
     dicty = {}
-    amenC = storage.count("Amenities")
+    amenC = storage.count("Amenity")
     dicty["amenities"] = amenC
     cityC = storage.count("City")
     dicty["cities"] = cityC
-    placeC = storage.count("Places")
+    placeC = storage.count("Place")
     dicty["places"] = placeC
     reviewC = storage.count("Review")
     dicty["reviews"] = reviewC

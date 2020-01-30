@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+Create a new view for City
+"""
 from models import storage
 from flask import jsonify, request, abort
 from api.v1.views import app_views
