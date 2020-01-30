@@ -79,6 +79,8 @@ class DBStorage:
         """retrieves one object"""
         try:
             objects = self.all(cls).values()
+            if objects is None:
+                return (None)
             for obj in objects:
                 if obj.id == id:
                     return (obj)
@@ -99,5 +101,5 @@ class DBStorage:
                 for obj in objects:
                     count += 1
             return (count)
-        except:
+        except Exception:
             return(count)
