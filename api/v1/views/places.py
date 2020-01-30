@@ -12,7 +12,7 @@ from models.place import Place
 def placefromcity(city_id):
     """Retrieve all places from a city"""
     place_list = []
-    if storage.get('cities', city_id) is None:
+    if storage.get('City', city_id) is None:
         abort(404)
     places = storage.all('Place').values()
     for place in places:
@@ -26,7 +26,7 @@ def placefromcity(city_id):
                  strict_slashes=False)
 def place_from_id(place_id):
     """Retrive place from id"""
-    place_obj = storage.get('places', place_id)
+    place_obj = storage.get('Place', place_id)
     if place_obj is None:
         abort(404)
     return jsonify(place_obj.to_dict())
@@ -37,7 +37,7 @@ def place_from_id(place_id):
                  strict_slashes=False)
 def place_delete(place_id):
     """delete a place"""
-    place_obj = storage.get('places', place_id)
+    place_obj = storage.get('Place', place_id)
     if place_obj is None:
         abort(404)
     storage.delete(place_obj)
@@ -50,7 +50,7 @@ def place_delete(place_id):
                  strict_slashes=False)
 def place_create(city_id):
     """create a new amenity"""
-    city_obj = storage.get("cities", city_id)
+    city_obj = storage.get("City", city_id)
     if city_obj is None:
         abort(404)
     if not request.get_json():
@@ -59,7 +59,7 @@ def place_create(city_id):
         return (jsonify({"error": "Missing user_id"})), 400
     json_dict = request.get_json()
     user_id = json_dict["user_id"]
-    user_obj = storage.get("users", user_id)
+    user_obj = storage.get("User", user_id)
     if user_obj is None:
         abort(404)
     if "name" not in json_dict:
