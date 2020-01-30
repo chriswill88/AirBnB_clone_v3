@@ -9,6 +9,7 @@ from models.user import User
                  methods=["GET"],
                  strict_slashes=False)
 def get_users():
+    """get all users"""
     user_list = []
     users = storage.all('User').values()
     for user in users:
@@ -20,6 +21,7 @@ def get_users():
                  methods=["GET"],
                  strict_slashes=False)
 def get_id_user(user_id):
+    """get a user from a user_id"""
     user_obj = storage.get('User', user_id)
     if user_obj is None:
         abort(404)
@@ -31,6 +33,7 @@ def get_id_user(user_id):
                  methods=["DELETE"],
                  strict_slashes=False)
 def delete_user(user_id):
+    """delete user"""
     user_obj = storage.get('User', user_id)
     if user_obj is None:
         abort(404)
@@ -44,6 +47,7 @@ def delete_user(user_id):
                  methods=["POST"],
                  strict_slashes=False)
 def create_user():
+    """Create new user"""
     if request.get_json is False:
         return jsonify({"error": "Not a JSON"}), 400
     if "email" not in request.get_json():
@@ -59,6 +63,7 @@ def create_user():
                  method=["PUT"],
                  strict_slashes=False)
 def update_user(user_id):
+    """update user"""
     user_obj = storage.get('User', user_id)
     if user_obj is None:
         abort(404)
