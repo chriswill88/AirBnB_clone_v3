@@ -14,7 +14,7 @@ def get_users():
     users = storage.all('User').values()
     for user in users:
         user_list.append(user.to_dict())
-    return jsonify(user_list)
+    return (jsonify(user_list))
 
 
 @app_views.route("/users/<user_id>",
@@ -26,7 +26,7 @@ def get_id_user(user_id):
     if user_obj is None:
         abort(404)
     else:
-        return jsonify(user_obj.to_dict())
+        return (jsonify(user_obj.to_dict()))
 
 
 @app_views.route("/users/<user_id>",
@@ -40,7 +40,7 @@ def delete_user(user_id):
     else:
         storage.delete(user_obj)
         storage.save()
-        return jsonify({}), 200
+        return (jsonify({})), 200
 
 
 @app_views.route("/users",
@@ -74,4 +74,4 @@ def update_user(user_id):
         if k not in ["id", "created_at", "updated_at"]:
             setattr(user_obj, k, v)
     storage.save()
-    return jsonify(user_id.to_dict()), 200
+    return (jsonify(user_id.to_dict())), 200
