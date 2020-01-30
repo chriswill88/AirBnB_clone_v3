@@ -12,48 +12,53 @@ from models.user import User
                  methods=["GET"],
                  strict_slashes=False)
 def get_users():
+    """get all users"""
     user_list = []
     users = storage.all('User').values()
     for user in users:
         user_list.append(user.to_dict())
-    return jsonify(user_list)
+    return (jsonify(user_list))
 
 
 @app_views.route("/users/<user_id>",
                  methods=["GET"],
                  strict_slashes=False)
 def get_id_user(user_id):
+    """get a user from a user_id"""
     user_obj = storage.get('User', user_id)
     if user_obj is None:
         abort(404)
     else:
-        return jsonify(user_obj.to_dict())
+        return (jsonify(user_obj.to_dict()))
 
 
 @app_views.route("/users/<user_id>",
                  methods=["DELETE"],
                  strict_slashes=False)
 def delete_user(user_id):
+    """delete user"""
     user_obj = storage.get('User', user_id)
     if user_obj is None:
         abort(404)
     else:
         storage.delete(user_obj)
         storage.save()
-        return jsonify({}), 200
+        return (jsonify({})), 200
 
 
 @app_views.route("/users",
                  methods=["POST"],
                  strict_slashes=False)
 def create_user():
-    if request.get_json is False:
+    """Create new user"""
+    if not request.get_json():
         return jsonify({"error": "Not a JSON"}), 400
-    if "email" not in request.get_json():
+    json_list = request.get_json()
+    if "email" not in json_list:
         return jsonify({"error": "Missing email"}), 400
-    if "password" not in request.get_json():
+    if "password" not in json_list:
         return jsonify({"error": "Missing password"}), 400
-    new_user = User(**request.get_json())
+    new_user = User(**json_list)
     new_user.save()
     return (new_user.to_dict()), 201
 
@@ -62,6 +67,7 @@ def create_user():
                  methods=["PUT"],
                  strict_slashes=False)
 def update_user(user_id):
+    """update user"""
     user_obj = storage.get('User', user_id)
     if user_obj is None:
         abort(404)
@@ -71,4 +77,4 @@ def update_user(user_id):
         if k not in ["id", "created_at", "updated_at"]:
             setattr(user_obj, k, v)
     storage.save()
-    return jsonify(user_id.to_dict()), 200
+    return (jsonify(user_id.to_dict())), 200
